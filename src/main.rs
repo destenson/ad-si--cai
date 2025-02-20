@@ -445,6 +445,9 @@ async fn exec_with_args(args: Args, stdin: &str) {
       Commands::Cs { prompt } => {
         prompt_with_lang_cntxt(&opts, &cmd, prompt).await
       }
+      Commands::Cuda { prompt } => {
+        prompt_with_lang_cntxt(&opts, &cmd, prompt).await
+      }
       Commands::Elm { prompt } => {
         prompt_with_lang_cntxt(&opts, &cmd, prompt).await
       }
@@ -452,6 +455,9 @@ async fn exec_with_args(args: Args, stdin: &str) {
         prompt_with_lang_cntxt(&opts, &cmd, prompt).await
       }
       Commands::Fs { prompt } => {
+        prompt_with_lang_cntxt(&opts, &cmd, prompt).await
+      }
+      Commands::Ft { prompt } => {
         prompt_with_lang_cntxt(&opts, &cmd, prompt).await
       }
       Commands::Gd { prompt } => {
@@ -467,6 +473,9 @@ async fn exec_with_args(args: Args, stdin: &str) {
         prompt_with_lang_cntxt(&opts, &cmd, prompt).await
       }
       Commands::Java { prompt } => {
+        prompt_with_lang_cntxt(&opts, &cmd, prompt).await
+      }
+      Commands::Jl { prompt } => {
         prompt_with_lang_cntxt(&opts, &cmd, prompt).await
       }
       Commands::Js { prompt } => {
@@ -488,6 +497,9 @@ async fn exec_with_args(args: Args, stdin: &str) {
         prompt_with_lang_cntxt(&opts, &cmd, prompt).await
       }
       Commands::Pg { prompt } => {
+        prompt_with_lang_cntxt(&opts, &cmd, prompt).await
+      }
+      Commands::Ps1 { prompt } => {
         prompt_with_lang_cntxt(&opts, &cmd, prompt).await
       }
       Commands::Ps { prompt } => {
