@@ -151,6 +151,27 @@ const XAI_MODEL_MAPPING_SRC: [(&str, &str); 8] = [
   ("grok-3-vision", "grok-3-vision-latest"),
 ];
 
+const PERPLEXITY_MODEL_MAPPING_SRC: [(&str, &str); 17] = [
+  // Supported models
+  ("sonar", "sonar"),
+  ("s", "sonar"),
+  ("sonar-pro", "sonar-pro"),
+  ("sp", "sonar-pro"),
+  ("sonar-reasoning", "sonar-reasoning"),
+  ("sr", "sonar-reasoning"),
+  ("sonar-reasoning-pro", "sonar-reasoning-pro"),  
+  ("srp", "sonar-reasoning-pro"),
+  ("r1-1776", "r1-1776"),
+  ("r", "r1-1776"),
+  ("offline", "r1-1776"),
+  ("llama-small", "llama-3.1-sonar-small-128k-online"),
+  ("ls", "llama-3.1-sonar-small-128k-online"),
+  ("llama-large", "llama-3.1-sonar-large-128k-online"),
+  ("ll", "llama-3.1-sonar-large-128k-online"),
+  ("llama-huge", "llama-3.1-sonar-huge-128k-online"),
+  ("lh", "llama-3.1-sonar-huge-128k-online"),
+];
+
 fn pretty_print_mapping(mapping: &[(&str, &str)]) -> String {
   mapping
     .iter()
@@ -242,6 +263,17 @@ fn main() {
     .replace(
       "{x_models_pretty}",
       &pretty_print_mapping(&XAI_MODEL_MAPPING_SRC),
+    )
+    .replace(
+      "// {perplexity_model_hashmap}",
+      &PERPLEXITY_MODEL_MAPPING_SRC
+        .iter()
+        .map(|(model, constant)| format!("(\"{model}\", \"{constant}\"),\n"))
+        .collect::<String>(),
+    )
+    .replace(
+      "{perplexity_models_pretty}",
+      &pretty_print_mapping(&PERPLEXITY_MODEL_MAPPING_SRC),
     );
 
   fs::write(&dest_path, code).unwrap();
