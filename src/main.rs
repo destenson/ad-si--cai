@@ -554,6 +554,9 @@ fn rename_file(file: String, timestamp: String, description: String) {
 
 #[tokio::main]
 async fn main() {
+  #[cfg(feature = "dotenv")]
+  dotenvy::dotenv().ok();
+
   let stdin = stdin();
   let mut args_vector = std::env::args().collect::<Vec<_>>();
   let args = Args::parse_from(&args_vector);
