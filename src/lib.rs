@@ -402,7 +402,7 @@ fn get_req_body_obj(
 
   if opts.is_json {
     match http_req.provider {
-      Provider::OpenAI | Provider::Groq | Provider::Ollama => {
+      Provider::OpenAI | Provider::Groq | Provider::Ollama | Provider::Perplexity => {
         map.insert(
           "response_format".to_string(),
           Value::Object(Map::from_iter([(
