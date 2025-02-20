@@ -220,6 +220,12 @@ for all supported model ids):"
     /// The prompt to send to the AI model
     prompt: Vec<String>,
   },
+  /// Use Cuda development as the prompt context
+  #[clap()]
+  Cuda {
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
   /// Use Elm development as the prompt context
   #[clap()]
   Elm {
@@ -235,6 +241,12 @@ for all supported model ids):"
   /// Use F# development as the prompt context
   #[clap()]
   Fs {
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
+  /// Use Fortran development as the prompt context
+  #[clap()]
+  Ft {
     /// The prompt to send to the AI model
     prompt: Vec<String>,
   },
@@ -274,6 +286,12 @@ for all supported model ids):"
     /// The prompt to send to the AI model
     prompt: Vec<String>,
   },
+  /// Use Julia development as the prompt context
+  #[clap()]
+  Jl {
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
   /// Use Kotlin development as the prompt context
   #[clap()]
   Kt {
@@ -307,6 +325,12 @@ for all supported model ids):"
   /// Use Postgres development as the prompt context
   #[clap()]
   Pg {
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
+  /// Use Powershell development as the prompt context
+  #[clap()]
+  Ps1 {
     /// The prompt to send to the AI model
     prompt: Vec<String>,
   },
@@ -411,14 +435,17 @@ impl Commands {
       Commands::C { .. } => Some("C"),
       Commands::Cpp { .. } => Some("C++"),
       Commands::Cs { .. } => Some("C#"),
+      Commands::Cuda { .. } => Some("CUDA"),
       Commands::Elm { .. } => Some("Elm"),
       Commands::Fish { .. } => Some("Fish"),
       Commands::Fs { .. } => Some("F#"),
+      Commands::Ft { .. } => Some("Fortran"),
       Commands::Gd { .. } => Some("GDScript"),
       Commands::Gl { .. } => Some("Gleam"),
       Commands::Go { .. } => Some("Go"),
       Commands::Hs { .. } => Some("Haskell"),
       Commands::Java { .. } => Some("Java"),
+      Commands::Jl { .. } => Some("Julia"),
       Commands::Js { .. } => Some("JavaScript"),
       Commands::Kt { .. } => Some("Kotlin"),
       Commands::Lua { .. } => Some("Lua"),
@@ -426,6 +453,7 @@ impl Commands {
       Commands::Oc { .. } => Some("OCaml"),
       Commands::Php { .. } => Some("PHP"),
       Commands::Pg { .. } => Some("Postgres"),
+      Commands::Ps1 { .. } => Some("PowerShell"),
       Commands::Ps { .. } => Some("PureScript"),
       Commands::Py { .. } => Some("Python"),
       Commands::Rb { .. } => Some("Ruby"),
