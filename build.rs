@@ -35,35 +35,39 @@ const ANTHROPIC_MODEL_MAPPING_SRC: [(&str, &str); 26] = [
   ("sonnet-3-7", "claude-3-7-sonnet-20250219"),
 ];
 
-const GROQ_MODEL_MAPPING_SRC: [(&str, &str); 20] = [
+const GROQ_MODEL_MAPPING_SRC: [(&str, &str); 22] = [
   ///// Default models /////
   // Llama
   ("llama", "llama-3.1-8b-instant"),
   ("ll", "llama-3.1-8b-instant"),
   ("l", "llama-3.1-8b-instant"),
-  ("llama-8b", "llama-3.1-8b-instant"),
-  ("llama-70b", "llama-3.1-70b-versatile"),
-  ("llama-405b", "llama-3.1-405b-reasoning"),
+  ("llama-8b", "llama-3.3-8b-instant"),
+  ("llama-70b", "llama-3.3-70b-versatile"),
   // Mixtral
   ("mixtral", "mixtral-8x7b-32768"),
   ("mi", "mixtral-8x7b-32768"),
   ("m", "mixtral-8x7b-32768"),
   // Gemma
-  ("gemma", "gemma-7b-it"),
-  ("ge", "gemma-7b-it"),
-  ("g", "gemma-7b-it"),
+  ("gemma", "gemma2-9b-it"),
+  ("ge", "gemma2-9b-it"),
+  ("g", "gemma2-9b-it"),
   ///// Specific versions /////
-  // Llama 3.1
-  ("llama31", "llama-3.1-8b-instant"),
-  ("llama31-8b", "llama-3.1-8b-instant"),
-  ("llama31-70b", "llama-3.1-70b-versatile"),
-  ("llama31-405b", "llama-3.1-405b-reasoning"),
+  // Llama 3.3
+  ("llama33", "llama-3.3-8b-instant"),
+  ("llama33-8b", "llama-3.3-8b-instant"),
+  ("llama33-70b", "llama-3.3-70b-versatile"),
   // Llama 3.0
   ("llama3", "llama3-8b-8192"),
   ("llama3-8b", "llama3-8b-8192"),
   ("llama3-70b", "llama3-70b-8192"),
   // Mixtral
   ("mixtral-8x7b", "mixtral-8x7b-32768"),
+  // Qwen
+  ("qwen", "qwen-2.5-32b"),
+  // DeepSeek
+  ("deepseek-qwen", "deepseek-r1-distill-qwen-32b"),
+  ("deepseek-llama", "deepseek-r1-distill-llama-70b"),
+  ("deepseek-llama-specdec", "deepseek-r1-distill-llama-70b-specdec"),
 ];
 
 const CEREBRAS_MODEL_MAPPING_SRC: [(&str, &str); 13] = [
