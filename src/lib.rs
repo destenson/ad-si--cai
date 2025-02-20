@@ -722,7 +722,7 @@ pub async fn prompt_with_lang_cntxt(
   )
   .await
   {
-    eprintln!("Error prompting with OCaml context: {}", err);
+    eprintln!("Error prompting with {} context: {}", prog_lang, err);
     std::process::exit(1);
   }
 }
