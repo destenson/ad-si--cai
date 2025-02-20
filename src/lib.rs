@@ -708,9 +708,13 @@ pub async fn prompt_with_lang_cntxt(
     Keep your answer concise and to the point.\n"
   );
 
+  // let model = Model::Model(
+  //   Provider::Anthropic,
+  //   "claude-3-5-sonnet-latest".to_string(), //
+  // );
   let model = Model::Model(
-    Provider::Anthropic,
-    "claude-3-5-sonnet-latest".to_string(), //
+    Provider::Groq,
+    "llama-3.1-8b-instant".to_string(), //
   );
 
   if let Err(err) = exec_tool(
