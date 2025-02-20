@@ -303,6 +303,8 @@ pub fn get_full_config(
   HashMap<std::string::String, std::string::String>,
   config::ConfigError,
 > {
+  // let _ = dotenvy::dotenv().ok().unwrap();
+  println!("Using secrets file: {}", secrets_path_str);
   let config = Config::builder()
     .set_default(
       "anthropic_api_key",
@@ -347,6 +349,11 @@ fn get_http_req(
     None => {
       let req =
         get_api_request(&full_config, &secrets_path_str, &Default::default())
+          .or(get_api_request(
+            &full_config,
+            &secrets_path_str,
+            &Model::Model(Provider::Perplexity, "sonar".to_owned()),
+          ))
           .or(get_api_request(
             &full_config,
             &secrets_path_str,
