@@ -293,6 +293,8 @@ fn get_secrets_path_str() -> String {
     .join(".config")
     .join("cai")
     .join("secrets.yaml");
+  std::fs::create_dir_all(secrets_path.parent().unwrap())
+    .expect("Couldn't create configuration directory");
   let _ = std::fs::File::create_new(&secrets_path);
   secrets_path.to_str().unwrap().to_string()
 }
