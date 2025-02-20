@@ -120,6 +120,28 @@ for all supported model ids):"
     /// The prompt to send to the AI model
     prompt: Vec<String>,
   },
+  /// - Perplexity
+  #[clap(visible_alias = "px")]
+  Perplexity {
+    model: String,
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
+  #[clap(visible_alias = "sonar")]
+  PerplexitySonar {
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
+  #[clap(visible_alias = "sp")]
+  PerplexitySonarPro {
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
+  #[clap(visible_alias = "srp")]
+  PerplexitySonarReasoningPro {
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
   /// Llamafile server hosted at http://localhost:8080
   #[clap(visible_alias = "lf")]
   Llamafile {
@@ -373,6 +395,10 @@ impl Commands {
       Commands::ClaudeHaiku { .. } => None,
       Commands::Xai { .. } => None,
       Commands::Grok { .. } => None,
+      Commands::Perplexity { .. } => None,
+      Commands::PerplexitySonar { .. } => None,
+      Commands::PerplexitySonarPro { .. } => None,
+      Commands::PerplexitySonarReasoningPro { .. } => None,
       Commands::Llamafile { .. } => None,
       Commands::Ollama { .. } => None,
       Commands::All { .. } => None,

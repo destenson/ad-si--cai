@@ -266,6 +266,44 @@ async fn exec_with_args(args: Args, stdin: &str) {
         )
         .await
       }
+      Commands::Perplexity { model, prompt } => {
+        submit_prompt(
+          &Some(&Model::Model(Provider::Perplexity, model.to_string())),
+          &opts,
+          &format!("{stdin}{}", prompt.join(" ")),
+        )
+        .await
+      }
+      Commands::PerplexitySonar { prompt } => {
+        submit_prompt(
+          &Some(&Model::Model(Provider::Perplexity, "sonar".to_string())),
+          &opts,
+          &format!("{stdin}{}", prompt.join(" ")),
+        )
+        .await
+      }
+      Commands::PerplexitySonarPro { prompt } => {
+        submit_prompt(
+          &Some(&Model::Model(
+            Provider::Perplexity,
+            "sonar-pro".to_string(),
+          )),
+          &opts,
+          &format!("{stdin}{}", prompt.join(" ")),
+        )
+        .await
+      }
+      Commands::PerplexitySonarReasoningPro { prompt } => {
+        submit_prompt(
+          &Some(&Model::Model(
+            Provider::Perplexity,
+            "sonar-reasoning-pro".to_string(),
+          )),
+          &opts,
+          &format!("{stdin}{}", prompt.join(" ")),
+        )
+        .await
+      }
       Commands::All { prompt } => {
         let models = vec![
           Model::Model(
@@ -278,6 +316,7 @@ async fn exec_with_args(args: Args, stdin: &str) {
           Model::Model(Provider::Ollama, "llama3".to_string()),
           Model::Model(Provider::OpenAI, "gpt-4o-mini".to_string()),
           Model::Model(Provider::XAI, "grok-2-latest".to_string()),
+          Model::Model(Provider::Perplexity, "sonar".to_string()),
         ];
 
         let mut handles = vec![];

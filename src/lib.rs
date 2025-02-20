@@ -36,6 +36,7 @@ pub enum Provider {
   Llamafile,
   Ollama,
   XAI,
+  Perplexity,
 }
 
 impl std::fmt::Display for Provider {
@@ -49,6 +50,7 @@ impl std::fmt::Display for Provider {
       Provider::Ollama => write!(f, "Ollama"),
       Provider::OpenAI => write!(f, "OpenAI"),
       Provider::XAI => write!(f, "xAI"),
+      Provider::Perplexity => write!(f, "Perplexity"),
     }
   }
 }
@@ -183,6 +185,12 @@ fn default_req_for_model(model: &Model) -> AiRequest {
       model: types::get_xai_model(model_id).to_string(),
       ..Default::default()
     },
+    Provider::Perplexity => AiRequest {
+      provider: *provider,
+      url: "https://api.perplexity.ai/chat/completions".to_string(),
+      model: types::get_perplexity_model(model_id).to_string(),
+      ..Default::default()
+    },
   }
 }
 
@@ -191,11 +199,11 @@ fn get_key_setup_msg(secrets_path_str: &str) -> String {
     "An API key must be provided. Use one of the following options:\n\
         \n\
         1. Set one or more API keys in {secrets_path_str}\n\
-           (`anthropic_api_key`, `groq_api_key`, `openai_api_key`)\n\
+           (`anthropic_api_key`, `groq_api_key`, `openai_api_key`, `perplexity_api_key`)\n\
         2. Set one or more cai specific env variables\n\
-            (CAI_ANTHROPIC_API_KEY, CAI_GROQ_API_KEY, CAI_OPENAI_API_KEY)\n\
+            (CAI_ANTHROPIC_API_KEY, CAI_GROQ_API_KEY, CAI_OPENAI_API_KEY, CAI_PPXT_API_KEY)\n\
         3. Set one or more generic env variables\n\
-            (ANTHROPIC_API_KEY, GROQ_API_KEY, OPENAI_API_KEY)\n\
+            (ANTHROPIC_API_KEY, GROQ_API_KEY, OPENAI_API_KEY, PPXT_API_KEY)\n\
         ",
   )
 }
@@ -218,6 +226,7 @@ fn get_api_request(
       Provider::Ollama => Some(&dummy_key),
       Provider::OpenAI => full_config.get("openai_api_key"),
       Provider::XAI => full_config.get("xai_api_key"),
+      Provider::Perplexity => full_config.get("perplexity_api_key"),
     }
   }
   .and_then(|api_key| {
@@ -250,6 +259,7 @@ fn get_used_model(model: &Model) -> String {
       Provider::Ollama => types::get_ollama_model(model_id),
       Provider::OpenAI => types::get_openai_model(model_id),
       Provider::XAI => types::get_xai_model(model_id),
+      Provider::Perplexity => types::get_perplexity_model(model_id),
     };
     cformat!("<bold>🧠 {} {}</bold>", provider, full_model_id)
   }
@@ -294,6 +304,10 @@ pub fn get_full_config(
     .set_default(
       "groq_api_key", //
       env::var("GROQ_API_KEY").unwrap_or_default(),
+    )?
+    .set_default(
+      "perplexity_api_key", //
+      env::var("PPXT_API_KEY").unwrap_or_default(),
     )?
     .add_source(config::File::with_name(&secrets_path_str))
     .add_source(config::Environment::with_prefix("CAI"))
