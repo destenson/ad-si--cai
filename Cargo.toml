@@ -9,7 +9,7 @@ repository = "https://github.com/ad-si/cai"
 edition = "2021"
 
 [features]
-default = []
+default = ["dotenv"]
 dotenv = ["dep:dotenvy"]
 
 [dependencies]
