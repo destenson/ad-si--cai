@@ -710,6 +710,10 @@ pub async fn prompt_with_lang_cntxt(
     Keep your answer concise and to the point.\n"
   );
 
+  // let model = Model::Model(
+  //   Provider::Groq,
+  //   "llama-3.1-8b-instant".to_string(), //
+  // );
   let model = Model::Model(
     Provider::Anthropic,
     "claude-3-7-sonnet-latest".to_string(), //
