@@ -556,6 +556,9 @@ fn rename_file(file: String, timestamp: String, description: String) {
 async fn main() {
   #[cfg(feature = "dotenv")]
   dotenvy::dotenv().ok();
+  // println!("Cai v{}", CRATE_VERSION);
+  // println!("Copyright (c) 2024, Cai Labs Inc. All rights reserved.");
+  println!("{}", std::env::var("PPXT_API_KEY").unwrap_or_default());
 
   let stdin = stdin();
   let mut args_vector = std::env::args().collect::<Vec<_>>();

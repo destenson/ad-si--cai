@@ -64,7 +64,8 @@ pub enum Model {
 
 impl Default for Model {
   fn default() -> Model {
-    Model::Model(Provider::Groq, "llama-3.1-8b-instant".to_owned())
+    Model::Model(Provider::Perplexity, "sonar".to_owned())
+    // Model::Model(Provider::Groq, "llama-3.1-8b-instant".to_owned())
   }
 }
 
@@ -217,6 +218,9 @@ fn get_api_request(
 ) -> Result<AiRequest, String> {
   let dummy_key = "DUMMY_KEY".to_string();
   let Model::Model(provider, _) = model;
+  println!("Using model: {}", model.to_string());
+  println!("Using provider: {}", provider.to_string());
+  println!("Using config key: {:?}", full_config);
 
   {
     match provider {
@@ -239,6 +243,11 @@ fn get_api_request(
     }
   })
   .map(|api_key| api_key.to_string())
+  .inspect(|api_key| {
+    if api_key.is_empty() {
+      eprintln!("No API key found for provider: {}", provider);
+    }
+  })
   .ok_or(get_key_setup_msg(secrets_path_str))
   .map(|api_key| AiRequest {
     api_key: api_key.clone(),
