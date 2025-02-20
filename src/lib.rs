@@ -14,6 +14,7 @@ use reqwest::Response;
 use serde_derive::{Deserialize, Serialize};
 use serde_json::{json, Map, Value};
 pub use types::Commands;
+#[cfg(any(unix, target_os = "redox"))]
 use xdg::BaseDirectories;
 
 #[derive(Serialize, Debug, PartialEq, Default, Clone)]
@@ -254,11 +255,23 @@ fn get_used_model(model: &Model) -> String {
   }
 }
 
+#[cfg(any(unix, target_os = "redox"))]
 fn get_secrets_path_str() -> String {
   let xdg_dirs = BaseDirectories::with_prefix("cai").unwrap();
   let secrets_path = xdg_dirs
     .place_config_file("secrets.yaml")
     .expect("Couldn't create configuration directory");
+  let _ = std::fs::File::create_new(&secrets_path);
+  secrets_path.to_str().unwrap().to_string()
+}
+
+#[cfg(not(any(unix, target_os = "redox")))]
+fn get_secrets_path_str() -> String {
+  let secrets_path = std::env::home_dir()
+    .expect("Couldn't get home directory")
+    .join(".config")
+    .join("cai")
+    .join("secrets.yaml");
   let _ = std::fs::File::create_new(&secrets_path);
   secrets_path.to_str().unwrap().to_string()
 }
