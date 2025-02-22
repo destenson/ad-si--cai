@@ -64,8 +64,10 @@ pub enum Model {
 
 impl Default for Model {
   fn default() -> Model {
-    Model::Model(Provider::Perplexity, "sonar".to_owned())
-    // Model::Model(Provider::Groq, "llama-3.1-8b-instant".to_owned())
+    #[cfg(feature = "default-provider-groq")]
+    { Model::Model(Provider::Groq, "llama-3.1-8b-instant".to_owned()) }
+    #[cfg(feature = "default-provider-perplexity")]
+    { Model::Model(Provider::Perplexity, "sonar".to_owned()) }
   }
 }
 
