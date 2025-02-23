@@ -9,7 +9,7 @@ repository = "https://github.com/ad-si/cai"
 edition = "2021"
 
 [features]
-default = ["dotenv","default-provider-perplexity"]
+default = ["dotenv","default-provider-groq"]
 dotenv = ["dep:dotenvy"]
 default-provider-groq = []
 default-provider-perplexity = []
