@@ -142,6 +142,13 @@ for all supported model ids):"
     /// The prompt to send to the AI model
     prompt: Vec<String>,
   },
+  /// - LambdaLabs
+  #[clap(visible_alias = "lbl")]
+  LambdaLabs {
+    model: String,
+    /// The prompt to send to the AI model
+    prompt: Vec<String>,
+  },
   /// Llamafile server hosted at http://localhost:8080
   #[clap(visible_alias = "lf")]
   Llamafile {
@@ -423,6 +430,7 @@ impl Commands {
       Commands::PerplexitySonar { .. } => None,
       Commands::PerplexitySonarPro { .. } => None,
       Commands::PerplexitySonarReasoningPro { .. } => None,
+      Commands::LambdaLabs { .. } => None,
       Commands::Llamafile { .. } => None,
       Commands::Ollama { .. } => None,
       Commands::All { .. } => None,

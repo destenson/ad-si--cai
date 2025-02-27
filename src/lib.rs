@@ -39,6 +39,7 @@ pub enum Provider {
   Ollama,
   XAI,
   Perplexity,
+  LambdaLabs,
 }
 
 impl std::fmt::Display for Provider {
@@ -53,6 +54,7 @@ impl std::fmt::Display for Provider {
       Provider::OpenAI => write!(f, "OpenAI"),
       Provider::XAI => write!(f, "xAI"),
       Provider::Perplexity => write!(f, "Perplexity"),
+      Provider::LambdaLabs => write!(f, "LambdaLabs"),
     }
   }
 }
@@ -68,6 +70,8 @@ impl Default for Model {
     { Model::Model(Provider::Groq, "llama-3.1-8b-instant".to_owned()) }
     #[cfg(feature = "default-provider-perplexity")]
     { Model::Model(Provider::Perplexity, "sonar".to_owned()) }
+    #[cfg(feature = "default-provider-lambdalabs")]
+    { Model::Model(Provider::LambdaLabs, "hermes3-405b".to_owned()) }
   }
 }
 
@@ -196,6 +200,12 @@ fn default_req_for_model(model: &Model) -> AiRequest {
       model: types::get_perplexity_model(model_id).to_string(),
       ..Default::default()
     },
+    Provider::LambdaLabs => AiRequest {
+      provider: *provider,
+      url: "https://api.lambdalabs.com/v1/chat/completions".to_string(),
+      model: types::get_lambdalabs_model(model_id).to_string(),
+      ..Default::default()
+    },
   }
 }
 
@@ -235,6 +245,7 @@ fn get_api_request(
       Provider::OpenAI => full_config.get("openai_api_key"),
       Provider::XAI => full_config.get("xai_api_key"),
       Provider::Perplexity => full_config.get("perplexity_api_key"),
+      Provider::LambdaLabs => full_config.get("lambdalabs_api_key"),
     }
   }
   .and_then(|api_key| {
@@ -273,6 +284,7 @@ fn get_used_model(model: &Model) -> String {
       Provider::OpenAI => types::get_openai_model(model_id),
       Provider::XAI => types::get_xai_model(model_id),
       Provider::Perplexity => types::get_perplexity_model(model_id),
+      Provider::LambdaLabs => types::get_lambdalabs_model(model_id),
     };
     cformat!("<bold>🧠 {} {}</bold>", provider, full_model_id)
   }
@@ -325,6 +337,10 @@ pub fn get_full_config(
     .set_default(
       "perplexity_api_key", //
       env::var("PPXT_API_KEY").unwrap_or_default(),
+    )?
+    .set_default(
+      "lambdalabs_api_key", //
+      env::var("LAMBDA_LABS_API_KEY").unwrap_or_default(),
     )?
     .add_source(config::File::with_name(&secrets_path_str))
     .add_source(config::Environment::with_prefix("CAI"))
@@ -425,7 +441,7 @@ fn get_req_body_obj(
 
   if opts.json_schema.is_some() {
     match http_req.provider {
-      Provider::OpenAI | Provider::Ollama => {
+      Provider::OpenAI | Provider::Ollama | Provider::Perplexity => {
         let mut json_schema = Map::new();
         json_schema.insert("type".to_string(), "json_schema".into());
         json_schema.insert(
@@ -753,4 +769,23 @@ mod tests {
     .await;
     assert!(result.is_err());
   }
-}
+  
+  #[tokio::test]
+  async fn test_get_models() {
+    dotenvy::dotenv().ok();
+    let client = reqwest::Client::new();
+    let req = client.get("https://api.lambdalabs.com/v1/models");
+    let req = req.bearer_auth(&std::env::var("LAMBDA_LABS_API_KEY").unwrap_or_default());
+    let r = req.send().await;
+  
+    assert!(r.is_ok());
+    let resp = r.unwrap();
+    assert!(resp.status().is_success(), "{:?}", resp);
+    let resp_json = resp.json::<Value>().await.unwrap();
+    assert!(resp_json.is_array(), "{}", resp_json);
+    let models = resp_json.as_array().unwrap();
+    assert!(models.len() > 0);
+  }
+
+}  
+

@@ -13,6 +13,7 @@ default = ["dotenv","default-provider-groq"]
 dotenv = ["dep:dotenvy"]
 default-provider-groq = []
 default-provider-perplexity = []
+default-provider-lambdalabs = []
 
 [lib]
 path = "src/lib.rs"

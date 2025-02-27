@@ -187,3 +187,26 @@ macro_rules! perplexity_models_pretty {
     concat!($prefix, "\n", "{perplexity_models_pretty}")
   };
 }
+
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// LambdaLabs /////////////////////////////////////
+
+// Pretty-printed string representation of the hashmap
+pub const LAMBDALABS_MODEL_MAPPING: &[(&str, &str)] = &[
+  // This will be replaced by build.rs:
+  // {lambdalabs_model_hashmap}
+];
+
+pub fn get_lambdalabs_model(model_id: &str) -> &str {
+  LAMBDALABS_MODEL_MAPPING
+    .iter()
+    .find(|(key, _)| key == &model_id)
+    .map_or(model_id, |(_, value)| *value)
+}
+
+macro_rules! lambdalabs_models_pretty {
+  ($prefix: expr) => {
+    // This will be replaced by build.rs
+    concat!($prefix, "\n", "{lambdalabs_models_pretty}")
+  };
+}

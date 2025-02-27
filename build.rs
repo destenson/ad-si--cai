@@ -176,6 +176,23 @@ const PERPLEXITY_MODEL_MAPPING_SRC: [(&str, &str); 17] = [
   ("lh", "llama-3.1-sonar-huge-128k-online"),
 ];
 
+const LAMBDALABS_MODEL_MAPPING_SRC: [(&str, &str); 14] = [
+  ("llama31", "llama3.1"),
+  ("llama31-405b", "llama3.1-405b-instruct-fp8"),
+  ("llama31-70b", "llama3.1-70b-instruct-fp8"),
+  ("llama31-nemo", "llama3.1-nemotron-70b-instruct-fp8"),
+  ("llama32-11-vision", "llama3.2-11b-vision-instruct"),
+  ("llama32-3b", "llama3.2-3b-instruct"),
+  ("llama31-8b", "llama3.1-8b-instruct"),
+  ("llama33-70b", "llama3.3-70b-instruct-fp8"),
+  ("lfm-40b", "lfm-40b"),
+  ("qwen", "qwen25-coder-32b-instruct"),
+  ("hermes3-405b", "hermes3-405b"),
+  ("hermes3-70b", "hermes3-70b"),
+  ("hermes3-8b", "hermes3-8b"),
+  ("deepseek", "deepseek-llama3.3-70b"),
+];
+
 fn pretty_print_mapping(mapping: &[(&str, &str)]) -> String {
   mapping
     .iter()
@@ -278,6 +295,17 @@ fn main() {
     .replace(
       "{perplexity_models_pretty}",
       &pretty_print_mapping(&PERPLEXITY_MODEL_MAPPING_SRC),
+    )
+    .replace(
+      "// {lambdalabs_model_hashmap}",
+      &LAMBDALABS_MODEL_MAPPING_SRC
+        .iter()
+        .map(|(model, constant)| format!("(\"{model}\", \"{constant}\"),\n"))
+        .collect::<String>(),
+    )
+    .replace(
+      "{lambdalabs_models_pretty}",
+      &pretty_print_mapping(&LAMBDALABS_MODEL_MAPPING_SRC),
     );
 
   fs::write(&dest_path, code).unwrap();

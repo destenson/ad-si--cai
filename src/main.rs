@@ -304,6 +304,14 @@ async fn exec_with_args(args: Args, stdin: &str) {
         )
         .await
       }
+      Commands::LambdaLabs { model, prompt } => {
+        submit_prompt(
+          &Some(&Model::Model(Provider::LambdaLabs, model.to_string())),
+          &opts,
+          &format!("{stdin}{}", prompt.join(" ")),
+        )
+        .await
+      }
       Commands::All { prompt } => {
         let models = vec![
           Model::Model(
@@ -317,6 +325,7 @@ async fn exec_with_args(args: Args, stdin: &str) {
           Model::Model(Provider::OpenAI, "gpt-4o-mini".to_string()),
           Model::Model(Provider::XAI, "grok-2-latest".to_string()),
           Model::Model(Provider::Perplexity, "sonar".to_string()),
+          Model::Model(Provider::LambdaLabs, "hermes3-405b".to_string()),
         ];
 
         let mut handles = vec![];
